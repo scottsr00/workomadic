@@ -1,0 +1,241 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  role          UserRole  @default(USER)
+
+  accounts      Account[]
+  sessions      Session[]
+  reviews       Review[]
+  submissions   Location[] @relation("UserSubmissions")
+  premiumListings PremiumListing[]
+  favorites     Favorite[]
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model City {
+  id          String     @id @default(cuid())
+  name        String     @unique
+  state       String?
+  country     String     @default("USA")
+  description String?
+  imageUrl    String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  locations   Location[]
+}
+
+model Location {
+  id          String       @id @default(cuid())
+  name        String
+  description String
+  address     String
+  cityId      String
+  latitude    Float?
+  longitude   Float?
+  website     String?
+  phone       String?
+  hours       String?
+  priceRange  PriceRange   @default(FREE)
+  wifiQuality WifiQuality  @default(UNKNOWN)
+  noiseLevel  NoiseLevel   @default(UNKNOWN)
+  seating     SeatingType  @default(UNKNOWN)
+  powerOutlets Boolean     @default(false)
+  parking     Boolean      @default(false)
+  food        Boolean      @default(false)
+  coffee      Boolean      @default(false)
+  quiet       Boolean      @default(false)
+  outdoor     Boolean      @default(false)
+  petFriendly Boolean      @default(false)
+  wheelchair  Boolean      @default(false)
+  isPremium   Boolean      @default(false)
+  isApproved  Boolean      @default(false)
+  submittedBy String?
+  // Google Places integration
+  googlePlaceId String?    @unique
+  googleRating  Float?
+  googleReviewCount Int?   @default(0)
+  lastGoogleSync DateTime?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  city        City         @relation(fields: [cityId], references: [id], onDelete: Cascade)
+  submittedByUser User?    @relation("UserSubmissions", fields: [submittedBy], references: [id])
+  photos      Photo[]
+  reviews     Review[]
+  googleReviews GoogleReview[]
+  premiumListing PremiumListing?
+  tags        Tag[]
+  favorites   Favorite[]
+}
+
+model Photo {
+  id         String   @id @default(cuid())
+  url        String
+  alt        String?
+  isPrimary  Boolean  @default(false)
+  locationId String
+  createdAt  DateTime @default(now())
+
+  location   Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
+}
+
+model Review {
+  id         String   @id @default(cuid())
+  rating     Int      @default(5)
+  comment    String?
+  locationId String
+  userId     String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  location   Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model GoogleReview {
+  id         String   @id @default(cuid())
+  googleId   String   @unique
+  authorName String
+  authorUrl  String?
+  rating     Int
+  text       String?
+  time       DateTime
+  language   String?
+  profilePhotoUrl String?
+  locationId String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  location   Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
+
+  @@index([locationId])
+}
+
+model Tag {
+  id         String     @id @default(cuid())
+  name       String     @unique
+  color      String     @default("#3B82F6")
+  createdAt  DateTime   @default(now())
+
+  locations  Location[]
+}
+
+model PremiumListing {
+  id              String   @id @default(cuid())
+  locationId      String   @unique
+  userId          String?
+  stripeProductId String?
+  stripePriceId   String?
+  isActive        Boolean  @default(false)
+  expiresAt       DateTime?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  location        Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  user            User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+}
+
+enum UserRole {
+  USER
+  ADMIN
+  MODERATOR
+}
+
+enum PriceRange {
+  FREE
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum WifiQuality {
+  UNKNOWN
+  POOR
+  FAIR
+  GOOD
+  EXCELLENT
+}
+
+enum NoiseLevel {
+  UNKNOWN
+  QUIET
+  MODERATE
+  LOUD
+  VERY_LOUD
+}
+
+enum SeatingType {
+  UNKNOWN
+  CHAIRS
+  BOOTHS
+  OUTDOOR
+  STANDING
+  MIXED
+}
+
+model Favorite {
+  id         String   @id @default(cuid())
+  userId     String
+  locationId String
+  createdAt  DateTime @default(now())
+
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  location   Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, locationId])
+}
