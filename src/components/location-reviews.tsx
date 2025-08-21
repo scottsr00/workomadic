@@ -57,7 +57,7 @@ export function LocationReviews({ location }: LocationReviewsProps) {
   const [comment, setComment] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSyncingGoogle, setIsSyncingGoogle] = useState(false)
-  const [activeTab, setActiveTab] = useState<'internal' | 'google'>('internal')
+  const [activeTab, setActiveTab] = useState<'internal' | 'google'>('google')
 
   const formatDate = (date: Date) => {
     return date.toLocaleDateString('en-US', {
@@ -185,16 +185,6 @@ export function LocationReviews({ location }: LocationReviewsProps) {
       <div className="border-b border-gray-200 mb-6">
         <nav className="-mb-px flex space-x-8">
           <button
-            onClick={() => setActiveTab('internal')}
-            className={`py-2 px-1 border-b-2 font-medium text-sm ${
-              activeTab === 'internal'
-                ? 'border-blue-500 text-blue-600'
-                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-            }`}
-          >
-            Our Reviews ({location._count.reviews})
-          </button>
-          <button
             onClick={() => setActiveTab('google')}
             className={`py-2 px-1 border-b-2 font-medium text-sm ${
               activeTab === 'google'
@@ -203,6 +193,16 @@ export function LocationReviews({ location }: LocationReviewsProps) {
             }`}
           >
             Google Reviews ({location._count.googleReviews})
+          </button>
+          <button
+            onClick={() => setActiveTab('internal')}
+            className={`py-2 px-1 border-b-2 font-medium text-sm ${
+              activeTab === 'internal'
+                ? 'border-blue-500 text-blue-600'
+                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+            }`}
+          >
+            Our Reviews ({location._count.reviews})
           </button>
         </nav>
       </div>

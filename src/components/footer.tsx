@@ -24,7 +24,7 @@ export function Footer() {
             <h3 className="font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/cities/nyc" className="text-gray-400 hover:text-white transition-colors">
+                <Link href="/cities/new-york-city" className="text-gray-400 hover:text-white transition-colors">
                   NYC Locations
                 </Link>
               </li>

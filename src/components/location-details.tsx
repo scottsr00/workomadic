@@ -27,6 +27,11 @@ import { LocationReviews } from './location-reviews'
 import { StarButton } from './star-button'
 import { GooglePlacesConnector } from './google-places-connector'
 
+// Helper function to create URL-friendly slug from city name
+function createCitySlug(cityName: string): string {
+  return cityName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
+}
+
 interface Location {
   id: string
   name: string
@@ -186,7 +191,7 @@ export function LocationDetails({ location }: LocationDetailsProps) {
       <div className="bg-white shadow-sm border-b">
         <div className="container mx-auto px-4 py-4">
           <Link 
-            href={`/cities/${location.cityId}`}
+            href={`/cities/${createCitySlug(location.city.name)}`}
             className="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors mb-2"
           >
             <ChevronLeft className="h-4 w-4 mr-1" />

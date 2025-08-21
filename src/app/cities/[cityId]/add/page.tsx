@@ -13,7 +13,12 @@ interface AddLocationPageProps {
   }
 }
 
-async function getCity(cityId: string) {
+// Helper function to create URL-friendly slug from city name
+function createCitySlug(cityName: string): string {
+  return cityName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
+}
+
+async function getCity(citySlug: string) {
   const city = await safePrismaQuery(
     async () => {
       const { prisma } = await import('@/lib/prisma')
@@ -23,15 +28,24 @@ async function getCity(cityId: string) {
       return await prisma.city.findFirst({
         where: {
           OR: [
-            { id: cityId },
-            { name: { contains: cityId, mode: 'insensitive' } }
+            { id: citySlug },
+            { name: { contains: citySlug, mode: 'insensitive' } },
+            // Match against slugified city names
+            {
+              name: {
+                in: mockCities
+                  .filter(city => createCitySlug(city.name) === citySlug)
+                  .map(city => city.name)
+              }
+            }
           ]
         }
       })
     },
     mockCities.find(city => 
-      city.id === cityId || 
-      city.name.toLowerCase().includes(cityId.toLowerCase())
+      city.id === citySlug || 
+      city.name.toLowerCase().includes(citySlug.toLowerCase()) ||
+      createCitySlug(city.name) === citySlug
     ) || null
   )
 
@@ -52,7 +66,7 @@ export default async function AddLocationPage({ params }: AddLocationPageProps) 
         {/* Breadcrumb Navigation */}
         <div className="mb-6">
           <Link
-            href={`/cities/${city.id}`}
+            href={`/cities/${createCitySlug(city.name)}`}
             className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700"
           >
             <ArrowLeft className="h-4 w-4" />
@@ -61,7 +75,7 @@ export default async function AddLocationPage({ params }: AddLocationPageProps) 
         </div>
         
         <Suspense fallback={<LoadingSpinner />}>
-          <AddLocationForm cityId={city.id} cityName={city.name} />
+          <AddLocationForm cityId={city.id} cityName={city.name} city={city} />
         </Suspense>
       </div>
     </div>

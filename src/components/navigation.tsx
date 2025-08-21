@@ -23,7 +23,7 @@ export function Navigation() {
 
           {/* Navigation Links */}
           <div className="hidden md:flex items-center space-x-8">
-            <Link href="/cities/nyc" className="text-gray-600 hover:text-blue-600 transition-colors">
+            <Link href="/cities/new-york-city" className="text-gray-600 hover:text-blue-600 transition-colors">
               NYC
             </Link>
             <Link href="/cities/austin" className="text-gray-600 hover:text-blue-600 transition-colors">

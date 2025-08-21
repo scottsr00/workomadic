@@ -14,7 +14,12 @@ interface CityPageProps {
   }
 }
 
-async function getCity(cityId: string) {
+// Helper function to create URL-friendly slug from city name
+function createCitySlug(cityName: string): string {
+  return cityName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
+}
+
+async function getCity(citySlug: string) {
   const city = await safePrismaQuery(
     async () => {
       const { prisma } = await import('@/lib/prisma')
@@ -24,8 +29,16 @@ async function getCity(cityId: string) {
       return await prisma.city.findFirst({
         where: {
           OR: [
-            { id: cityId },
-            { name: { contains: cityId, mode: 'insensitive' } }
+            { id: citySlug },
+            { name: { contains: citySlug, mode: 'insensitive' } },
+            // Match against slugified city names
+            {
+              name: {
+                in: mockCities
+                  .filter(city => createCitySlug(city.name) === citySlug)
+                  .map(city => city.name)
+              }
+            }
           ]
         },
         include: {
@@ -38,8 +51,9 @@ async function getCity(cityId: string) {
       })
     },
     mockCities.find(city => 
-      city.id === cityId || 
-      city.name.toLowerCase().includes(cityId.toLowerCase())
+      city.id === citySlug || 
+      city.name.toLowerCase().includes(citySlug.toLowerCase()) ||
+      createCitySlug(city.name) === citySlug
     ) || null
   )
 
@@ -59,7 +73,7 @@ export default async function CityPage({ params }: CityPageProps) {
       <CityHeader city={city} />
       <div className="container mx-auto px-4 py-8">
         <Suspense fallback={<LoadingSpinner />}>
-          <LocationGrid cityId={city.id} />
+          <LocationGrid cityId={city.id} city={city} />
         </Suspense>
         <ContentBreakAds adSlot={getAdSlot('cityPage')} />
       </div>

@@ -7,9 +7,19 @@ import { Plus, Loader2 } from 'lucide-react'
 interface AddLocationFormProps {
   cityId: string
   cityName: string
+  city?: {
+    id: string
+    name: string
+    state?: string | null
+  }
 }
 
-export function AddLocationForm({ cityId, cityName }: AddLocationFormProps) {
+// Helper function to create URL-friendly slug from city name
+function createCitySlug(cityName: string): string {
+  return cityName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
+}
+
+export function AddLocationForm({ cityId, cityName, city }: AddLocationFormProps) {
   const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState('')
@@ -92,7 +102,8 @@ export function AddLocationForm({ cityId, cityName }: AddLocationFormProps) {
 
       // Redirect back to city page after a short delay
       setTimeout(() => {
-        router.push(`/cities/${cityId}`)
+        const citySlug = city ? createCitySlug(city.name) : cityId
+        router.push(`/cities/${citySlug}`)
       }, 2000)
 
     } catch (err) {

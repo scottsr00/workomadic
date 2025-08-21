@@ -9,6 +9,16 @@ import { getAdSlot, shouldShowAds } from '@/lib/google-ads-config'
 
 interface LocationGridProps {
   cityId: string
+  city?: {
+    id: string
+    name: string
+    state?: string | null
+  }
+}
+
+// Helper function to create URL-friendly slug from city name
+function createCitySlug(cityName: string): string {
+  return cityName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
 }
 
 interface Location {
@@ -59,7 +69,7 @@ async function fetchLocations(cityId: string, filters: Record<string, string> = 
   return response.json()
 }
 
-export function LocationGrid({ cityId }: LocationGridProps) {
+export function LocationGrid({ cityId, city }: LocationGridProps) {
   const [filters, setFilters] = useState<Record<string, string>>({})
   
   const { data, isLoading, error } = useQuery({
@@ -100,7 +110,7 @@ export function LocationGrid({ cityId }: LocationGridProps) {
           <FilterPanel 
             filters={filters}
             onFiltersChange={setFilters}
-            cityId={cityId}
+            cityId={city ? createCitySlug(city.name) : cityId}
           />
         </div>
 

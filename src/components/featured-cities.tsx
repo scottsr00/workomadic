@@ -11,6 +11,12 @@ interface FeaturedCity {
   locationCount: number
   imageUrl: string
   gradient: string
+  slug: string
+}
+
+// Helper function to create URL-friendly slug from city name
+function createCitySlug(cityName: string): string {
+  return cityName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
 }
 
 async function getFeaturedCities(): Promise<FeaturedCity[]> {
@@ -41,7 +47,8 @@ async function getFeaturedCities(): Promise<FeaturedCity[]> {
     description: city.description || '',
     locationCount: city._count?.locations || 0,
     imageUrl: city.imageUrl || `/images/${city.name.toLowerCase().replace(/\s+/g, '-')}.jpg`,
-    gradient: index === 0 ? 'from-blue-500 to-purple-600' : 'from-orange-500 to-red-600'
+    gradient: index === 0 ? 'from-blue-500 to-purple-600' : 'from-orange-500 to-red-600',
+    slug: createCitySlug(city.name)
   }))
 }
 
@@ -66,7 +73,7 @@ export async function FeaturedCities() {
           {featuredCities.map((city: FeaturedCity) => (
             <Link 
               key={city.id}
-              href={`/cities/${city.id}`}
+              href={`/cities/${city.slug}`}
               className="group block card card-hover overflow-hidden"
             >
               <div className="relative h-80">
