@@ -5,9 +5,10 @@ const prisma = new PrismaClient()
 async function main() {
   // Create cities
   const nyc = await prisma.city.upsert({
-    where: { name: 'New York City' },
+    where: { id: 'nyc' },
     update: {},
     create: {
+      id: 'nyc',
       name: 'New York City',
       state: 'NY',
       country: 'USA',
@@ -17,9 +18,10 @@ async function main() {
   })
 
   const austin = await prisma.city.upsert({
-    where: { name: 'Austin' },
+    where: { id: 'austin' },
     update: {},
     create: {
+      id: 'austin',
       name: 'Austin',
       state: 'TX',
       country: 'USA',

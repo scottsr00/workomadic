@@ -6,6 +6,8 @@ import { LocationCard } from './location-card'
 import { FilterPanel } from './filter-panel'
 import { GridAds } from './google-ads'
 import { getAdSlot, shouldShowAds } from '@/lib/google-ads-config'
+import Link from 'next/link'
+import { Plus } from 'lucide-react'
 
 interface LocationGridProps {
   cityId: string
@@ -98,6 +100,13 @@ export function LocationGrid({ cityId, city }: LocationGridProps) {
     return (
       <div className="text-center py-12">
         <p className="text-gray-600">No locations found. Try adjusting your filters.</p>
+        <Link
+          href={`/cities/${cityId}/add`}
+          className="inline-flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+        >
+          <Plus className="h-4 w-4" />
+          Add Location
+        </Link>
       </div>
     )
   }
@@ -110,7 +119,7 @@ export function LocationGrid({ cityId, city }: LocationGridProps) {
           <FilterPanel 
             filters={filters}
             onFiltersChange={setFilters}
-            cityId={city ? createCitySlug(city.name) : cityId}
+            cityId={cityId}
           />
         </div>
 

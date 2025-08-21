@@ -8,7 +8,7 @@ export function Hero() {
   const [selectedCity, setSelectedCity] = useState('')
 
   const cities = [
-    { id: 'nyc', name: 'New York City', state: 'NY' },
+    { id: 'new-york-city', name: 'New York City', state: 'NY' },
     { id: 'austin', name: 'Austin', state: 'TX' },
   ]
 

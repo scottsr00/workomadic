@@ -102,8 +102,7 @@ export function AddLocationForm({ cityId, cityName, city }: AddLocationFormProps
 
       // Redirect back to city page after a short delay
       setTimeout(() => {
-        const citySlug = city ? createCitySlug(city.name) : cityId
-        router.push(`/cities/${citySlug}`)
+        router.push(`/cities/${cityId}`)
       }, 2000)
 
     } catch (err) {

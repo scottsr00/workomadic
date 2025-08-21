@@ -27,11 +27,6 @@ import { LocationReviews } from './location-reviews'
 import { StarButton } from './star-button'
 import { GooglePlacesConnector } from './google-places-connector'
 
-// Helper function to create URL-friendly slug from city name
-function createCitySlug(cityName: string): string {
-  return cityName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
-}
-
 interface Location {
   id: string
   name: string
