@@ -1,4 +1,16 @@
 import GoogleProvider from "next-auth/providers/google"
+import type { JWT } from "next-auth/jwt"
+import type { Session } from "next-auth"
+
+// Define NextAuthOptions type for NextAuth v4 compatibility
+interface NextAuthOptions {
+  providers: any[]
+  callbacks: any
+  pages?: any
+  session?: any
+  secret?: string
+  debug?: boolean
+}
 
 // Check if Google credentials are properly configured
 const googleClientId = process.env.GOOGLE_CLIENT_ID
@@ -16,7 +28,7 @@ console.log(`   NEXTAUTH_URL: ${nextAuthUrl}`)
 console.log(`   Google Client ID: ${googleClientId ? '✅ Configured' : '❌ Missing'}`)
 console.log(`   Google Client Secret: ${googleClientSecret ? '✅ Configured' : '❌ Missing'}`)
 
-export const authOptions = {
+export const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
       clientId: googleClientId || "mock-client-id",
@@ -31,7 +43,7 @@ export const authOptions = {
     }),
   ],
   callbacks: {
-    session: async ({ session, token }: { session: any; token: any }) => {
+    session: async ({ session, token }: { session: Session; token: JWT }) => {
       if (session?.user && token?.sub) {
         // Get the actual user ID from the database
         try {
@@ -56,7 +68,7 @@ export const authOptions = {
       }
       return session
     },
-    jwt: async ({ token, user, account }: { token: any; user: any; account: any }) => {
+    jwt: async ({ token, user, account }: { token: JWT; user?: any; account?: any }) => {
       if (user) {
         token.sub = user.id
       }
