@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Search, MapPin, Filter, X } from 'lucide-react'
 import { LocationCard } from './location-card'
@@ -78,18 +78,7 @@ export function SearchResults({ query, city, wifiQuality, noiseLevel, priceRange
   const router = useRouter()
   const searchParams = useSearchParams()
 
-  useEffect(() => {
-    // Only fetch results if there are any filters applied
-    const hasAnyFilters = query || city || wifiQuality || noiseLevel || priceRange || coffee || powerOutlets || outdoor
-    if (hasAnyFilters) {
-      fetchSearchResults()
-    } else {
-      setLoading(false)
-      setResults(null)
-    }
-  }, [query, city, wifiQuality, noiseLevel, priceRange, coffee, powerOutlets, outdoor, page])
-
-  const fetchSearchResults = async () => {
+  const fetchSearchResults = useCallback(async () => {
     setLoading(true)
     setError(null)
 
@@ -118,7 +107,18 @@ export function SearchResults({ query, city, wifiQuality, noiseLevel, priceRange
     } finally {
       setLoading(false)
     }
-  }
+  }, [query, city, wifiQuality, noiseLevel, priceRange, coffee, powerOutlets, outdoor, page])
+
+  useEffect(() => {
+    // Only fetch results if there are any filters applied
+    const hasAnyFilters = query || city || wifiQuality || noiseLevel || priceRange || coffee || powerOutlets || outdoor
+    if (hasAnyFilters) {
+      fetchSearchResults()
+    } else {
+      setLoading(false)
+      setResults(null)
+    }
+  }, [fetchSearchResults, query, city, wifiQuality, noiseLevel, priceRange, coffee, powerOutlets, outdoor])
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
