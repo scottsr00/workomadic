@@ -182,12 +182,32 @@ The application includes automatic Google Places integration for reviews and rat
 
 ## Deployment
 
+### Quick Deploy with Database
+
+For detailed deployment instructions with a real PostgreSQL database, see [DEPLOYMENT.md](./DEPLOYMENT.md).
+
 ### Vercel (Recommended)
 
-1. Push your code to GitHub
-2. Connect your repository to Vercel
-3. Add environment variables in Vercel dashboard
-4. Deploy
+1. **Set up a PostgreSQL database** (Vercel Postgres, Supabase, or Railway)
+2. **Push your code to GitHub**
+3. **Connect your repository to Vercel**
+4. **Add environment variables** in Vercel dashboard:
+   - `DATABASE_URL` (required for real database)
+   - `NEXTAUTH_URL` and `NEXTAUTH_SECRET` (for authentication)
+   - Other optional variables for full functionality
+5. **Deploy** - The build process will automatically set up your database
+
+### Database Setup After Deployment
+
+After deployment, seed your database with sample data:
+
+```bash
+# Check database status
+curl https://your-domain.vercel.app/api/seed
+
+# Seed the database
+curl -X POST https://your-domain.vercel.app/api/seed
+```
 
 ### Other Platforms
 
