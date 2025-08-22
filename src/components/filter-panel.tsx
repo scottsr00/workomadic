@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Filter, X, Plus } from 'lucide-react'
+import { Filter, Plus } from 'lucide-react'
 import Link from 'next/link'
 
 interface FilterPanelProps {

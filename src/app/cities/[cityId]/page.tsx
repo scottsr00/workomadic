@@ -9,9 +9,9 @@ import { ContentBreakAds } from '@/components/google-ads'
 import { getAdSlot } from '@/lib/google-ads-config'
 
 interface CityPageProps {
-  params: {
+  params: Promise<{
     cityId: string
-  }
+  }>
 }
 
 // Helper function to create URL-friendly slug from city name

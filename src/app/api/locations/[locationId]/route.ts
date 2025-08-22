@@ -4,9 +4,9 @@ import { mockLocations } from '@/lib/mock-data'
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { locationId: string } }
+  context: { params: Promise<{ locationId: string }> }
 ) {
-  const locationId = params.locationId
+  const { locationId } = await context.params
 
   const result = await safePrismaQuery(
     async () => {
@@ -62,10 +62,23 @@ export async function GET(
         avgRating
       }
     },
-    mockLocations.find(location => 
-      location.id === locationId || 
-      location.name.toLowerCase().includes(locationId.toLowerCase())
-    ) || null
+    (() => {
+      const mockLocation = mockLocations.find(location => 
+        location.id === locationId || 
+        location.name.toLowerCase().includes(locationId.toLowerCase())
+      )
+      
+      if (!mockLocation) return null
+      
+      // Add missing Google-related fields to match database schema
+      return {
+        ...mockLocation,
+        googlePlaceId: null,
+        googleRating: null,
+        googleReviewCount: null,
+        lastGoogleSync: null
+      }
+    })()
   )
 
   if (!result) {

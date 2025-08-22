@@ -8,9 +8,9 @@ import { AddLocationForm } from '@/components/add-location-form'
 import { LoadingSpinner } from '@/components/loading-spinner'
 
 interface AddLocationPageProps {
-  params: {
+  params: Promise<{
     cityId: string
-  }
+  }>
 }
 
 // Helper function to create URL-friendly slug from city name

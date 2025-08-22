@@ -18,10 +18,7 @@ interface LocationGridProps {
   }
 }
 
-// Helper function to create URL-friendly slug from city name
-function createCitySlug(cityName: string): string {
-  return cityName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
-}
+
 
 interface Location {
   id: string
@@ -71,7 +68,7 @@ async function fetchLocations(cityId: string, filters: Record<string, string> = 
   return response.json()
 }
 
-export function LocationGrid({ cityId, city }: LocationGridProps) {
+export function LocationGrid({ cityId }: LocationGridProps) {
   const [filters, setFilters] = useState<Record<string, string>>({})
   
   const { data, isLoading, error } = useQuery({
@@ -126,7 +123,7 @@ export function LocationGrid({ cityId, city }: LocationGridProps) {
         {/* Locations Grid */}
         <div className="lg:w-3/4">
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-            {data.locations.map((location, index) => (
+            {data.locations.map((location) => (
               <LocationCard key={location.id} location={location} />
             ))}
             

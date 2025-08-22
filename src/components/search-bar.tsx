@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Search, MapPin, Filter } from 'lucide-react'
+import { Search, MapPin } from 'lucide-react'
 
 export function SearchBar() {
   const [searchQuery, setSearchQuery] = useState('')

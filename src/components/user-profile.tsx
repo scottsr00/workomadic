@@ -1,6 +1,7 @@
 'use client'
 
 import { useSession, signOut } from 'next-auth/react'
+import Image from 'next/image'
 import { useState } from 'react'
 import { User, Settings, LogOut, ChevronDown, ChevronUp } from 'lucide-react'
 
@@ -24,9 +25,11 @@ export function UserProfile() {
       >
         <div className="flex items-center space-x-2">
           {session.user.image ? (
-            <img
+            <Image
               src={session.user.image}
               alt={session.user.name || 'User'}
+              width={32}
+              height={32}
               className="w-8 h-8 rounded-full"
             />
           ) : (

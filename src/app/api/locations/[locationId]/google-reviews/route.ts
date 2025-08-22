@@ -4,10 +4,10 @@ import { safePrismaQuery } from '@/lib/db'
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { locationId: string } }
+  context: { params: Promise<{ locationId: string }> }
 ) {
   try {
-    const locationId = params.locationId
+    const { locationId } = await context.params
     const body = await request.json()
     const { placeId, searchByName } = body
 
@@ -82,10 +82,10 @@ export async function POST(
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { locationId: string } }
+  context: { params: Promise<{ locationId: string }> }
 ) {
   try {
-    const locationId = params.locationId
+    const { locationId } = await context.params
 
     const result = await safePrismaQuery(
       async () => {

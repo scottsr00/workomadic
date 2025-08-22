@@ -520,7 +520,7 @@ export function LocationDetails({ location }: LocationDetailsProps) {
               locationName={location.name}
               locationAddress={location.address}
               googlePlaceId={location.googlePlaceId}
-              onConnect={(placeId) => {
+              onConnect={() => {
                 // Refresh the page to show updated data
                 window.location.reload()
               }}

@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
-import { getPublisherId, shouldShowAds, getAdSlot } from '@/lib/google-ads-config'
+import { getPublisherId, shouldShowAds } from '@/lib/google-ads-config'
 
 interface GoogleAdsProps {
   adSlot: string
@@ -10,12 +10,13 @@ interface GoogleAdsProps {
 }
 
 export function GoogleAds({ adSlot, adFormat = 'auto', className = '' }: GoogleAdsProps) {
-  // Don't render ads if they're disabled
-  if (!shouldShowAds()) {
-    return null
-  }
-
   useEffect(() => {
+    // Don't render ads if they're disabled
+    if (!shouldShowAds()) {
+      return
+    }
+
+    // Load Google AdSense script if not already loaded
     // Load Google AdSense script if not already loaded
     if (typeof window !== 'undefined' && !window.adsbygoogle) {
       const script = document.createElement('script')
@@ -48,6 +49,11 @@ export function GoogleAds({ adSlot, adFormat = 'auto', className = '' }: GoogleA
       }, 100)
     }
   }, [adSlot])
+
+  // Don't render ads if they're disabled
+  if (!shouldShowAds()) {
+    return null
+  }
 
   return (
     <div className={`google-ads-container ${className}`}>

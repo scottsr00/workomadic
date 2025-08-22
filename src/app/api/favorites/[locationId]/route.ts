@@ -1,22 +1,24 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getServerSession } from 'next-auth'
+import { getServerSession } from 'next-auth/next'
 import { authOptions } from '@/lib/auth'
 import { safePrismaQuery } from '@/lib/db'
+import { Session } from 'next-auth'
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { locationId: string } }
+  context: { params: Promise<{ locationId: string }> }
 ) {
-  const session = await getServerSession(authOptions)
+  const { locationId } = await context.params
+  const session = await getServerSession(authOptions) as Session | null
   
-  if (!session?.user?.id) {
+  if (!session || !session.user?.id) {
     return NextResponse.json(
       { error: 'Authentication required' },
       { status: 401 }
     )
   }
 
-  const locationId = params.locationId
+
 
   const result = await safePrismaQuery(
     async () => {

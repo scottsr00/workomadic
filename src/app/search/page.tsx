@@ -1,10 +1,10 @@
 import { Suspense } from 'react'
-import { notFound } from 'next/navigation'
+
 import { SearchResults } from '@/components/search-results'
 import { LoadingSpinner } from '@/components/loading-spinner'
 
 interface SearchPageProps {
-  searchParams: {
+  searchParams: Promise<{
     q?: string
     city?: string
     wifiQuality?: string
@@ -14,7 +14,7 @@ interface SearchPageProps {
     powerOutlets?: string
     outdoor?: string
     page?: string
-  }
+  }>
 }
 
 export default async function SearchPage({ searchParams }: SearchPageProps) {
@@ -30,7 +30,6 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
   const page = parseInt(resolvedSearchParams.page || '1')
 
   // If no search query or filters, show empty search page
-  const hasAnyFilters = query || city || wifiQuality || noiseLevel || priceRange || coffee || powerOutlets || outdoor
 
   return (
     <div className="min-h-screen bg-gray-50">

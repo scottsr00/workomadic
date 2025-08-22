@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useAuth } from './use-auth'
 
 interface Favorite {
@@ -37,7 +37,7 @@ export function useFavorites() {
   const [error, setError] = useState<string | null>(null)
 
   // Load user's favorites
-  const loadFavorites = async () => {
+  const loadFavorites = useCallback(async () => {
     if (!isAuthenticated) {
       setFavorites([])
       setFavoriteIds(new Set())
@@ -62,7 +62,7 @@ export function useFavorites() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [isAuthenticated])
 
   // Add a location to favorites
   const addFavorite = async (locationId: string) => {
@@ -95,9 +95,10 @@ export function useFavorites() {
       await loadFavorites()
       
       return true
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error adding favorite:', err)
-      setError(err.message || 'Failed to add favorite')
+      const errorMessage = err instanceof Error ? err.message : 'Failed to add favorite'
+      setError(errorMessage)
       return false
     } finally {
       setLoading(false)
@@ -134,9 +135,10 @@ export function useFavorites() {
       setFavorites(prev => prev.filter(fav => fav.locationId !== locationId))
       
       return true
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error removing favorite:', err)
-      setError(err.message || 'Failed to remove favorite')
+      const errorMessage = err instanceof Error ? err.message : 'Failed to remove favorite'
+      setError(errorMessage)
       return false
     } finally {
       setLoading(false)
@@ -160,7 +162,7 @@ export function useFavorites() {
   // Load favorites on mount and when authentication changes
   useEffect(() => {
     loadFavorites()
-  }, [isAuthenticated])
+  }, [isAuthenticated, loadFavorites])
 
   return {
     favorites,

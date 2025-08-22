@@ -14,12 +14,7 @@ interface AddLocationFormProps {
   }
 }
 
-// Helper function to create URL-friendly slug from city name
-function createCitySlug(cityName: string): string {
-  return cityName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
-}
-
-export function AddLocationForm({ cityId, cityName, city }: AddLocationFormProps) {
+export function AddLocationForm({ cityId, cityName }: AddLocationFormProps) {
   const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState('')

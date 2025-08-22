@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Search, RefreshCw, CheckCircle, AlertCircle, Camera, Star } from 'lucide-react'
+import { Search, RefreshCw, CheckCircle, AlertCircle, Camera } from 'lucide-react'
 
 interface GooglePlacesConnectorProps {
   locationId: string
@@ -22,7 +22,14 @@ export function GooglePlacesConnector({
 }: GooglePlacesConnectorProps) {
   const [isSearching, setIsSearching] = useState(false)
   const [isSyncing, setIsSyncing] = useState(false)
-  const [searchResults, setSearchResults] = useState<any[]>([])
+  const [searchResults, setSearchResults] = useState<Array<{ 
+    place_id: string; 
+    name: string; 
+    formatted_address: string;
+    rating?: number;
+    user_ratings_total?: number;
+    photos?: Array<{ photo_reference: string; height: number; width: number; html_attributions: string[] }>;
+  }>>([])
   const [error, setError] = useState<string | null>(null)
   const [syncMessage, setSyncMessage] = useState<string | null>(null)
 

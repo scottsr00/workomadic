@@ -12,18 +12,18 @@ interface Location {
   name: string
   description: string
   address: string
-  priceRange: string
-  wifiQuality: string
-  noiseLevel: string
-  seating: string
-  isPremium: boolean
+  priceRange?: string
+  wifiQuality?: string
+  noiseLevel?: string
+  seating?: string
+  isPremium?: boolean
   avgRating: number | null
   _count: {
     reviews: number
   }
   photos: Array<{
     url: string
-    alt: string
+    alt: string | null
   }>
   tags: Array<{
     name: string
@@ -38,7 +38,7 @@ interface LocationCardProps {
 export function LocationCard({ location }: LocationCardProps) {
   const [isMapOpen, setIsMapOpen] = useState(false)
 
-  const getPriceRangeText = (range: string) => {
+  const getPriceRangeText = (range?: string) => {
     switch (range) {
       case 'FREE': return 'Free'
       case 'LOW': return '$'
@@ -48,7 +48,7 @@ export function LocationCard({ location }: LocationCardProps) {
     }
   }
 
-  const getWifiQualityText = (quality: string) => {
+  const getWifiQualityText = (quality?: string) => {
     switch (quality) {
       case 'EXCELLENT': return 'Excellent'
       case 'GOOD': return 'Good'

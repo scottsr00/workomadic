@@ -106,7 +106,7 @@ export default function FavoritesPage() {
                       {favorites.length} {favorites.length === 1 ? 'Favorite' : 'Favorites'}
                     </h2>
                     <p className="text-gray-600">
-                      Locations you've saved
+                      Locations you&apos;ve saved
                     </p>
                   </div>
                   <div className="text-right">

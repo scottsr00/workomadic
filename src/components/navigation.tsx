@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { useSession, signIn } from 'next-auth/react'
 import { LogIn, Star, Search } from 'lucide-react'
 import { UserProfile } from './user-profile'
@@ -14,9 +15,11 @@ export function Navigation() {
         <div className="flex items-center justify-between h-24">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
-            <img 
+            <Image 
               src="/workomadic-hz.png" 
               alt="Workomadic Logo" 
+              width={200}
+              height={80}
               className="h-20 w-auto"
             />
           </Link>

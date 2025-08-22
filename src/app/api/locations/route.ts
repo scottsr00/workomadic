@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
         throw new Error('No database connection')
       }
       
-      const where: Record<string, any> = {
+      const where: Record<string, unknown> = {
         isApproved: true
       }
 
@@ -94,9 +94,9 @@ export async function GET(request: NextRequest) {
         prisma.location.count({ where })
       ])
 
-      const locationsWithAvgRating = locations.map((location: any) => {
+      const locationsWithAvgRating = locations.map((location: typeof locations[0]) => {
         const avgRating = location.reviews.length > 0
-          ? location.reviews.reduce((sum: number, review: any) => sum + review.rating, 0) / location.reviews.length
+          ? location.reviews.reduce((sum: number, review: { rating: number }) => sum + review.rating, 0) / location.reviews.length
           : null
 
         return {

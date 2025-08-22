@@ -8,9 +8,9 @@ import { ContentBreakAds } from '@/components/google-ads'
 import { getAdSlot } from '@/lib/google-ads-config'
 
 interface LocationPageProps {
-  params: {
+  params: Promise<{
     locationId: string
-  }
+  }>
 }
 
 async function getLocation(locationId: string) {
@@ -58,10 +58,28 @@ async function getLocation(locationId: string) {
         }
       })
     },
-    mockLocations.find(location => 
-      location.id === locationId || 
-      location.name.toLowerCase().includes(locationId.toLowerCase())
-    ) || null
+    (() => {
+      const mockLocation = mockLocations.find(location => 
+        location.id === locationId || 
+        location.name.toLowerCase().includes(locationId.toLowerCase())
+      )
+      
+      if (!mockLocation) return null
+      
+      // Add missing Google-related fields to match database schema
+      return {
+        ...mockLocation,
+        googleReviews: [],
+        googlePlaceId: null,
+        googleRating: null,
+        googleReviewCount: null,
+        lastGoogleSync: null,
+        _count: {
+          ...mockLocation._count,
+          googleReviews: 0
+        }
+      }
+    })()
   )
 
   if (location) {

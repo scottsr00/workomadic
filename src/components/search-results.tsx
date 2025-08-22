@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { Search, MapPin, Filter, X } from 'lucide-react'
+import { Search, MapPin, X } from 'lucide-react'
 import { LocationCard } from './location-card'
 import { LoadingSpinner } from './loading-spinner'
 

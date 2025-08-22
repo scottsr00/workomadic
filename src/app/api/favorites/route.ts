@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getServerSession } from 'next-auth'
+import { getServerSession } from 'next-auth/next'
 import { authOptions } from '@/lib/auth'
 import { safePrismaQuery } from '@/lib/db'
+import { Session } from 'next-auth'
 
-export async function GET(request: NextRequest) {
-  const session = await getServerSession(authOptions)
+export async function GET() {
+  const session = await getServerSession(authOptions) as Session | null
   
-  if (!session?.user?.id) {
+  if (!session || !session.user?.id) {
     return NextResponse.json(
       { error: 'Authentication required' },
       { status: 401 }
@@ -51,10 +52,10 @@ export async function GET(request: NextRequest) {
         }
       })
 
-      const favoritesWithAvgRating = favorites.map((favorite: any) => {
+      const favoritesWithAvgRating = favorites.map((favorite: typeof favorites[0]) => {
         const location = favorite.location
         const avgRating = location.reviews.length > 0
-          ? location.reviews.reduce((sum: number, review: any) => sum + review.rating, 0) / location.reviews.length
+          ? location.reviews.reduce((sum: number, review: { rating: number }) => sum + review.rating, 0) / location.reviews.length
           : null
 
         return {
@@ -76,9 +77,9 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const session = await getServerSession(authOptions)
+  const session = await getServerSession(authOptions) as Session | null
   
-  if (!session?.user?.id) {
+  if (!session || !session.user?.id) {
     return NextResponse.json(
       { error: 'Authentication required' },
       { status: 401 }
@@ -164,17 +165,18 @@ export async function POST(request: NextRequest) {
       { status: 201 }
     )
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error adding favorite:', error)
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error'
     
-    if (error.message === 'Location not found or not approved') {
+    if (errorMessage === 'Location not found or not approved') {
       return NextResponse.json(
         { error: 'Location not found or not approved' },
         { status: 404 }
       )
     }
     
-    if (error.message === 'Location is already favorited') {
+    if (errorMessage === 'Location is already favorited') {
       return NextResponse.json(
         { error: 'Location is already in your favorites' },
         { status: 409 }

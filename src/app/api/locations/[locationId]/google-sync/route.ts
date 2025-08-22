@@ -4,10 +4,10 @@ import { safePrismaQuery } from '@/lib/db'
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { locationId: string } }
+  context: { params: Promise<{ locationId: string }> }
 ) {
   try {
-    const locationId = params.locationId
+    const { locationId } = await context.params
     const { placeId } = await request.json()
 
     if (!placeId) {
@@ -20,6 +20,10 @@ export async function POST(
     const result = await safePrismaQuery(
       async () => {
         const { prisma } = await import('@/lib/prisma')
+        
+        if (!prisma) {
+          throw new Error('No database connection')
+        }
         
         // Check if location exists
         const location = await prisma.location.findUnique({

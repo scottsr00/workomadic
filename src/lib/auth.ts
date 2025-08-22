@@ -1,4 +1,3 @@
-import { NextAuthOptions } from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 
 // Check if Google credentials are properly configured
@@ -17,7 +16,7 @@ console.log(`   NEXTAUTH_URL: ${nextAuthUrl}`)
 console.log(`   Google Client ID: ${googleClientId ? '✅ Configured' : '❌ Missing'}`)
 console.log(`   Google Client Secret: ${googleClientSecret ? '✅ Configured' : '❌ Missing'}`)
 
-export const authOptions: NextAuthOptions = {
+export const authOptions = {
   providers: [
     GoogleProvider({
       clientId: googleClientId || "mock-client-id",
@@ -32,7 +31,7 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    session: async ({ session, token }) => {
+    session: async ({ session, token }: { session: any; token: any }) => {
       if (session?.user && token?.sub) {
         // Get the actual user ID from the database
         try {
@@ -57,7 +56,7 @@ export const authOptions: NextAuthOptions = {
       }
       return session
     },
-    jwt: async ({ token, user, account }) => {
+    jwt: async ({ token, user, account }: { token: any; user: any; account: any }) => {
       if (user) {
         token.sub = user.id
       }
@@ -66,7 +65,7 @@ export const authOptions: NextAuthOptions = {
       }
       return token
     },
-    signIn: async ({ user, account, profile }) => {
+    signIn: async ({ user, account }: { user: any; account: any }) => {
       console.log("🔐 Sign-in callback triggered:", { 
         provider: account?.provider, 
         userEmail: user?.email 
@@ -106,7 +105,7 @@ export const authOptions: NextAuthOptions = {
       }
       return true
     },
-    redirect: async ({ url, baseUrl }) => {
+    redirect: async ({ url, baseUrl }: { url: string; baseUrl: string }) => {
       console.log("🔄 Redirect callback:", { url, baseUrl })
       
       // Allows relative callback URLs
@@ -121,7 +120,7 @@ export const authOptions: NextAuthOptions = {
     error: '/auth/error',
   },
   session: {
-    strategy: "jwt",
+    strategy: "jwt" as const,
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   secret: process.env.NEXTAUTH_SECRET,

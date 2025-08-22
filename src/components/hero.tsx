@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Search, MapPin, Filter } from 'lucide-react'
+import { Search, MapPin } from 'lucide-react'
 
 export function Hero() {
   const [searchQuery, setSearchQuery] = useState('')

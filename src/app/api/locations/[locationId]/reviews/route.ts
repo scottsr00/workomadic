@@ -3,12 +3,12 @@ import { safePrismaQuery } from '@/lib/db'
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { locationId: string } }
+  context: { params: Promise<{ locationId: string }> }
 ) {
   try {
     const body = await request.json()
     const { rating, comment } = body
-    const locationId = params.locationId
+    const { locationId } = await context.params
 
     // Validate required fields
     if (!rating || rating < 1 || rating > 5) {
