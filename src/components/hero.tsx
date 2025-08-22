@@ -1,16 +1,27 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { Search, MapPin, Filter } from 'lucide-react'
 
 export function Hero() {
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedCity, setSelectedCity] = useState('')
+  const router = useRouter()
 
   const cities = [
-    { id: 'new-york-city', name: 'New York City', state: 'NY' },
-    { id: 'austin', name: 'Austin', state: 'TX' },
+    { id: 'cmej5xfkq00006dldx90icnji', name: 'New York City', state: 'NY' },
+    { id: 'cmej5xflj00016dldpvl0cck9', name: 'Austin', state: 'TX' },
   ]
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault()
+    const params = new URLSearchParams()
+    if (searchQuery) params.append('q', searchQuery)
+    if (selectedCity) params.append('city', selectedCity)
+    
+    router.push(`/search?${params.toString()}`)
+  }
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -61,7 +72,7 @@ export function Hero() {
               </p>
             </div>
             
-            <div className="flex flex-col lg:flex-row gap-4 mb-6">
+            <form onSubmit={handleSearch} className="flex flex-col lg:flex-row gap-4 mb-6">
               {/* Search Input */}
               <div className="flex-1 relative">
                 <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
@@ -95,24 +106,36 @@ export function Hero() {
               </div>
 
               {/* Search Button */}
-              <button className="btn-primary text-lg px-8 py-4">
+              <button type="submit" className="btn-primary text-lg px-12 py-4">
                 <span className="flex items-center">
                   <Search className="h-5 w-5 mr-2" />
                   Search
                 </span>
               </button>
-            </div>
+            </form>
             
             {/* Quick Filters */}
             <div className="pt-6 border-t border-gray-100">
               <div className="flex flex-wrap gap-3">
                 <span className="text-sm text-gray-500">Popular:</span>
-                {['WiFi', 'Quiet', 'Coffee', 'Power Outlets', 'Outdoor'].map((filter) => (
+                {[
+                  { label: 'WiFi', filter: 'wifiQuality', value: 'EXCELLENT' },
+                  { label: 'Quiet', filter: 'noiseLevel', value: 'QUIET' },
+                  { label: 'Coffee', filter: 'coffee', value: 'true' },
+                  { label: 'Power Outlets', filter: 'powerOutlets', value: 'true' },
+                  { label: 'Outdoor', filter: 'outdoor', value: 'true' }
+                ].map((filter) => (
                   <button
-                    key={filter}
+                    key={filter.label}
+                    type="button"
+                    onClick={() => {
+                      const params = new URLSearchParams()
+                      params.append(filter.filter, filter.value)
+                      router.push(`/search?${params.toString()}`)
+                    }}
                     className="px-4 py-2 text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full transition-colors"
                   >
-                    {filter}
+                    {filter.label}
                   </button>
                 ))}
               </div>

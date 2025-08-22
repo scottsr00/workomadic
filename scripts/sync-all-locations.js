@@ -11,6 +11,19 @@ const prisma = new PrismaClient()
 async function syncAllLocations() {
   console.log('🔄 Starting bulk sync of all locations...\n')
   
+  // Check command line arguments
+  const args = process.argv.slice(2)
+  const forceSync = args.includes('--force')
+  const syncRecent = args.includes('--recent')
+  
+  if (forceSync) {
+    console.log('🔧 FORCE MODE - Will sync all locations regardless of sync status\n')
+  } else if (syncRecent) {
+    console.log('🕒 RECENT MODE - Will sync locations added in the last 3 hours\n')
+  } else {
+    console.log('📋 NORMAL MODE - Will only sync locations that haven\'t been synced yet\n')
+  }
+  
   try {
     // Get all locations that are approved
     const locations = await prisma.location.findMany({
@@ -22,7 +35,16 @@ async function syncAllLocations() {
         name: true,
         address: true,
         googlePlaceId: true,
-        lastGoogleSync: true
+        lastGoogleSync: true,
+        googleRating: true,
+        googleReviewCount: true,
+        createdAt: true,
+        _count: {
+          select: {
+            photos: true,
+            googleReviews: true
+          }
+        }
       },
       orderBy: {
         name: 'asc'
@@ -85,19 +107,57 @@ async function syncAllLocations() {
           console.log(`🔗 Google Place ID: ${location.googlePlaceId}`)
         }
 
-        // Check if we should skip based on last sync time (optional)
-        const shouldSkip = false // Set to true if you want to skip recently synced locations
-        if (shouldSkip && location.lastGoogleSync) {
-          const hoursSinceLastSync = (Date.now() - location.lastGoogleSync.getTime()) / (1000 * 60 * 60)
-          if (hoursSinceLastSync < 24) { // Skip if synced within last 24 hours
-            console.log(`⏭️  Skipping - synced ${Math.round(hoursSinceLastSync)} hours ago`)
-            results.skipped++
-            continue
+        // Check if we should skip based on whether location has been synced
+        const forceSync = args.includes('--force')
+        const syncRecent = args.includes('--recent')
+        
+        // A location is considered synced if it has:
+        // 1. A Google Place ID AND
+        // 2. Either photos, reviews, or a lastGoogleSync timestamp
+        const hasGooglePlaceId = !!location.googlePlaceId
+        const hasSyncedData = location._count.photos > 0 || 
+                             location._count.googleReviews > 0 || 
+                             location.lastGoogleSync ||
+                             (location.googleRating && location.googleReviewCount > 0)
+        
+        // Check if location was added in the last 3 hours
+        const threeHoursAgo = new Date(Date.now() - 3 * 60 * 60 * 1000)
+        const isRecentlyAdded = location.createdAt && location.createdAt > threeHoursAgo
+        
+        // Skip logic:
+        // - If force sync: never skip
+        // - If sync recent: only skip if not recently added AND already synced
+        // - Otherwise: skip if already synced
+        let shouldSkip = false
+        if (forceSync) {
+          shouldSkip = false
+        } else if (syncRecent) {
+          shouldSkip = !isRecentlyAdded && hasGooglePlaceId && hasSyncedData
+        } else {
+          shouldSkip = hasGooglePlaceId && hasSyncedData
+        }
+        
+        if (shouldSkip) {
+          let skipReason = 'already synced'
+          if (location.lastGoogleSync) {
+            const hoursSinceLastSync = (Date.now() - location.lastGoogleSync.getTime()) / (1000 * 60 * 60)
+            skipReason = `synced ${Math.round(hoursSinceLastSync)} hours ago`
+          } else if (location._count.photos > 0) {
+            skipReason = `has ${location._count.photos} photos`
+          } else if (location._count.googleReviews > 0) {
+            skipReason = `has ${location._count.googleReviews} reviews`
           }
+          console.log(`⏭️  Skipping - ${skipReason}`)
+          results.skipped++
+          continue
         }
 
         // Sync the location data
-        console.log(`🔄 Syncing photos and reviews...`)
+        if (syncRecent && isRecentlyAdded) {
+          console.log(`🕒 Syncing recently added location (added ${Math.round((Date.now() - location.createdAt.getTime()) / (1000 * 60 * 60))} hours ago)...`)
+        } else {
+          console.log(`🔄 Syncing photos and reviews...`)
+        }
         const syncResult = await googlePlacesService.syncLocationData(
           location.id,
           location.googlePlaceId
@@ -156,17 +216,20 @@ if (command === '--help' || command === '-h') {
 🔄 Google Places Bulk Sync Script
 
 Usage:
-  node scripts/sync-all-locations.js [options]
+  npm run sync:all [options]
 
 Options:
   --help, -h     Show this help message
-  --dry-run      Show what would be synced without actually syncing
-  --force        Force sync even for recently synced locations
+  --force        Force sync all locations (including recently synced)
+  --recent       Sync locations added in the last 3 hours (regardless of sync status)
+  
+Default behavior:
+  Only syncs locations that haven't been synced yet (no lastGoogleSync timestamp)
 
 Examples:
-  node scripts/sync-all-locations.js
-  node scripts/sync-all-locations.js --dry-run
-  node scripts/sync-all-locations.js --force
+  npm run sync:all                    # Sync only unsynced locations
+  npm run sync:all -- --force         # Force sync all locations
+  npm run sync:all -- --recent        # Sync locations added in last 3 hours
 `)
   process.exit(0)
 }

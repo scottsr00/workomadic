@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useSession, signIn } from 'next-auth/react'
-import { LogIn, Star } from 'lucide-react'
+import { LogIn, Star, Search } from 'lucide-react'
 import { UserProfile } from './user-profile'
 
 export function Navigation() {
@@ -23,6 +23,10 @@ export function Navigation() {
 
           {/* Navigation Links */}
           <div className="hidden md:flex items-center space-x-8">
+            <Link href="/search" className="flex items-center space-x-2 text-gray-600 hover:text-blue-600 transition-colors">
+              <Search className="w-4 h-4" />
+              <span>Search</span>
+            </Link>
             <Link href="/cities/new-york-city" className="text-gray-600 hover:text-blue-600 transition-colors">
               NYC
             </Link>

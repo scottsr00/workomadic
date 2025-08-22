@@ -9,6 +9,9 @@ export async function GET(request: NextRequest) {
   const wifiQuality = searchParams.get('wifiQuality')
   const noiseLevel = searchParams.get('noiseLevel')
   const priceRange = searchParams.get('priceRange')
+  const coffee = searchParams.get('coffee')
+  const powerOutlets = searchParams.get('powerOutlets')
+  const outdoor = searchParams.get('outdoor')
   const page = parseInt(searchParams.get('page') || '1')
   const limit = parseInt(searchParams.get('limit') || '12')
   const skip = (page - 1) * limit
@@ -46,6 +49,18 @@ export async function GET(request: NextRequest) {
 
       if (priceRange) {
         where.priceRange = priceRange
+      }
+
+      if (coffee === 'true') {
+        where.coffee = true
+      }
+
+      if (powerOutlets === 'true') {
+        where.powerOutlets = true
+      }
+
+      if (outdoor === 'true') {
+        where.outdoor = true
       }
 
       const [locations, total] = await Promise.all([
@@ -140,6 +155,18 @@ export async function GET(request: NextRequest) {
 
     if (priceRange) {
       filteredLocations = filteredLocations.filter(location => location.priceRange === priceRange)
+    }
+
+    if (coffee === 'true') {
+      filteredLocations = filteredLocations.filter(location => location.coffee === true)
+    }
+
+    if (powerOutlets === 'true') {
+      filteredLocations = filteredLocations.filter(location => location.powerOutlets === true)
+    }
+
+    if (outdoor === 'true') {
+      filteredLocations = filteredLocations.filter(location => location.outdoor === true)
     }
 
     const total = filteredLocations.length

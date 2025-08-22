@@ -175,10 +175,15 @@ export class GooglePlacesService {
         return []
       }
 
-      const { prisma } = await import('@/lib/prisma')
+      const { prisma, isPrismaAvailable } = await import('@/lib/prisma')
+      
+      if (!isPrismaAvailable()) {
+        console.log('Prisma not available - skipping photo sync')
+        return []
+      }
       
       // Clear existing photos for this location
-      await prisma.photo.deleteMany({
+      await prisma!.photo.deleteMany({
         where: { locationId }
       })
 
@@ -190,7 +195,7 @@ export class GooglePlacesService {
         const photoUrl = await this.getPlacePhoto(photo.photo_reference)
         
         if (photoUrl) {
-          const savedPhoto = await prisma.photo.create({
+          const savedPhoto = await prisma!.photo.create({
             data: {
               url: photoUrl,
               alt: `${placeDetails.name} - Photo ${i + 1}`,
@@ -217,10 +222,15 @@ export class GooglePlacesService {
         throw new Error('Failed to fetch place details')
       }
 
-      const { prisma } = await import('@/lib/prisma')
+      const { prisma, isPrismaAvailable } = await import('@/lib/prisma')
+      
+      if (!isPrismaAvailable()) {
+        console.log('Prisma not available - skipping review sync')
+        return placeDetails
+      }
       
       // Update location with Google data
-      await prisma.location.update({
+      await prisma!.location.update({
         where: { id: locationId },
         data: {
           googlePlaceId: placeId,
@@ -233,7 +243,7 @@ export class GooglePlacesService {
       // Sync reviews if available
       if (placeDetails.reviews && placeDetails.reviews.length > 0) {
         for (const review of placeDetails.reviews) {
-          await prisma.googleReview.upsert({
+          await prisma!.googleReview.upsert({
             where: { googleId: `${placeId}_${review.time}_${review.author_name}` },
             update: {
               authorName: review.author_name,

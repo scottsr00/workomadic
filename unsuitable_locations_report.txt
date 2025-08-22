@@ -1,0 +1,79 @@
+UNSUITABLE LOCATIONS REPORT
+==================================================
+Generated on: 2025-08-20 21:48:27
+Total locations scanned: 469
+
+Found 68 potentially unsuitable locations:
+
+ID                                      Name                                    Address                                           Reasons
+----------------------------------------------------------------------------------------------------------------------------------
+cmeja914u00576dfbh81kdmvd                42nd Street Pizza                        647 W 42nd St, New York, NY 10036, USA             Business type: pizza
+cmeja953e006n6dfbmw53d278                Action City Comics                       570 Manhattan Ave, Brooklyn, NY 11222, USA         Business type: comic
+cmejaabaq00k76dfbjp7op4kl                Aeon Bookstore                           151 E Broadway, New York, NY 10002, USA            Business type: bookstore
+cmeja9k4z00c36dfbbk9igd3q                Artichoke Basille's Pizza                321 E 14th St, New York, NY 10003, USA             Business type: pizza
+cmekoc98900o36dg5jbvshvl4                Austin Books & Comics                    5002 N Lamar Blvd, Austin, TX 78751, USA           Business type: comic
+cmeja9jng00bx6dfbrwbne5en                BRAVO PIZZA                              257 Park Ave S, New York, NY 10010, USA            Business type: pizza
+cmeja8t9e00256dfbtxsxjweq                Bleecker Street Pizza                    69 7th Ave S, New York, NY 10014, USA              Business type: pizza
+cmeja8pvn000x6dfbujk2753c                Borough of Manhattan Community College   199 Chambers St, New York, NY 10007, USA           Business type: bookstore
+cmeja72wy000l6dwm3j1y9gfv                Buvette                                  42 Grove St, New York, NY 10014, USA               Business type: vet
+cmeja7ak8003l6dwmdvshb2tl                Café Grumpy - Fashion District           200 W 39th St, New York, NY 10018, USA             Business type: fashion
+cmej5xfot000x6dld4j44gfnn                Capital Factory                          701 Brazos St, Austin, TX 78701                    Business type: spa
+cmejaae9900ld6dfb01wyuf4d                Champion Pizza Clinton                   201 Clinton St, New York, NY 10002, USA            Business type: pizza
+cmeja79pb00396dwm7nkckxo6                Chelsea Piers Fitness                    60 Chelsea Piers, New York, NY 10011, USA          Business type: fitness
+cmejaamas00op6dfbgcn6jhqa                Community Bookstore                      143 7th Ave, Brooklyn, NY 11215, USA               Business type: bookstore
+cmekoateb00756dg5wvs4r825                Delray Cafe                              1133 E 11th St, Austin, TX 78702, USA              Night-only hours detected
+cmej5xfo6000l6dldbbifd8vx                Devoción - Williamsburg                  69 Grand St, Brooklyn, NY 11249                    Business type: atm
+cmeja963g00736dfbb7purz3q                Edamama Cute Cuts & More - Hair Salon    568 Union Ave, Brooklyn, NY 11211, USA             Business type: salon
+cmeja9a7f008r6dfb3e26b4zc                Franklin Pizza                           109 Franklin St, Brooklyn, NY 11222, USA           Business type: pizza
+cmejaa8hu00j96dfb83xf93tt                Front Street Pizza                       80 Front St, Brooklyn, NY 11201, USA               Business type: pizza
+cmekoazku009b6dg5fjg4s3ik                Home Slice Pizza                         1415 S Congress Ave, Austin, TX 78704, USA         Business type: pizza
+cmeja8ov9000h6dfbhaxn9eth                Housing Works Bookstore                  126 Crosby St, New York, NY 10012, USA             Business type: bookstore
+cmeja8t0600216dfb1oacytjq                Joe's Pizza                              7 Carmine St, New York, NY 10014, USA              Business type: pizza
+cmekobepn00ed6dg5b32ghxtc                Kinokuniya Bookstore - Austin            6929 Airport Blvd #121, Austin, TX 78752, USA      Business type: bookstore
+cmeja8vvr00396dfbrjwcjoe5                Lombardi's                               32 Spring St, New York, NY 10012, USA              Bar/pub with no daytime hours
+cmejaap0600pr6dfbgxhzxd2o                Luigi's Pizza                            686 5th Ave, Brooklyn, NY 11215, USA               Business type: pizza
+cmeja99og008j6dfbp5j88nis                Macchina Pizza                           110 Bedford Ave, Brooklyn, NY 11249, USA           Business type: pizza
+cmeja8pdo000p6dfbbcl71jpy                Mercer Street Books & Records            206 Mercer St, New York, NY 10012, USA             Business type: record
+cmeja8yf200456dfbuztx83al                Midtown Comics Times Square              200 W 40th St, New York, NY 10018, USA             Business type: comic
+cmeja9h5g00b76dfbex3astb1                Montasy Comics NYC                       431 5th Ave 2nd floor, New York, NY 10016, USA     Business type: comic
+cmejaapkg00pz6dfbmntejex5                Montauk Club                             25 8th Ave, Brooklyn, NY 11217, USA                Business type: club
+cmejaar2400ql6dfbzoxx4aqq                Nacho Macho Taco                         82 5th Ave, Brooklyn, NY 11217, USA                Business type: taco
+cmeja91e9005b6dfbpus38nst                New York Burger Co.                      470 W 23 St, New York, NY 10011, USA               Business type: burger
+cmeja8vlr00356dfbjnlogcvd                Paul's Da Burger Joint                   131 2nd Ave, New York, NY 10003, USA               Business type: burger
+cmekoaqpy00636dg555c2ww2x                Possum Pizza                             2324 E Cesar Chavez St, Austin, TX 78702, USA      Business type: pizza
+cmejaa3rx00hj6dfbitnwvq4v                Posto NYC Thin Crust Pizza               310 2nd Ave, New York, NY 10003, USA               Business type: pizza
+cmeja94u0006j6dfb689rzjes                Quimby's Bookstore NYC                   536 Metropolitan Ave, Brooklyn, NY 11211, USA      Business type: bookstore
+cmejaa6gv00ih6dfbiij6feyf                Ray's Pizza & Bagel Cafe                 2 St Marks Pl, New York, NY 10003, USA             Business type: pizza
+cmeja8yoe00496dfbhiuyyue5                Rizzoli Bookstore                        1133 Broadway, New York, NY 10010, USA             Business type: bookstore
+cmekocacg00oh6dg5rlrmmxbl                Rockin' Rolls Sourdough Pizza Rolls      5000 Burnet Rd, Austin, TX 78756, USA              Business type: pizza
+cmekoap16005p6dg50r2zmd70                Royal Blue Grocery                       1629 E 6th St, Austin, TX 78702, USA               Business type: grocery
+cmekoabs100116dg5i0nttrzj                Royal Blue Grocery                       241 W 3rd St, Austin, TX 78701, USA                Business type: grocery
+cmekoaxb7008l6dg54n3zr4b9                Royal Blue Grocery                       51 Rainey St #120, Austin, TX 78701, USA           Business type: grocery
+cmekoabhh000x6dg5brrfxii4                Royal Blue Grocery                       301 Brazos St suite 110 suite 110, Austin, TX 78   Business type: grocery
+cmekoacdc00196dg5tzcek8nn                Royal Blue Grocery                       360 Nueces St #90, Austin, TX 78701, USA           Business type: grocery
+cmeja994x008b6dfbyx29wq9k                Singas Famous Pizza                      512 Grand St, Brooklyn, NY 11211, USA              Business type: pizza, Night-only hours detected
+cmekobqbn00ij6dg5uj16jzcy                Snarf's Sandwiches                       2901 Medical Arts St #2, Austin, TX 78705, USA     Business type: sandwich
+cmekob23n00a96dg5iur51ygc                Snarf's Sandwiches                       1404 S 1st St, Austin, TX 78704, USA               Business type: sandwich
+cmej5xfoc000o6dld4b91r8np                Spider House Cafe                        2908 Fruth St, Austin, TX 78705                    Business type: atm
+cmeja72d6000d6dwmdcdr6l8r                Spot Dessert Bar                         13 St Marks Pl, New York, NY 10003, USA            Bar/pub with no daytime hours
+cmeja9td600eh6dfbco1ljru3                Spunto NYC Thin Crust Pizza              65 Carmine St, New York, NY 10014, USA             Business type: pizza
+cmej5xfnt000f6dldlzkk0c9k                Starbucks Reserve - Chelsea              150 8th Ave, New York, NY 10011                    Business type: atm
+cmejaas0m00qz6dfbu5uopda9                Subway                                   525 5th Ave, Brooklyn, NY 11215, USA               Business type: subway
+cmeja797t00316dwmtsea8ldl                The Donut Pub                            203 W 14th St, New York, NY 10011, USA             Bar/pub with no daytime hours
+cmej5xfnz000i6dldh74dh40s                The Wing - SoHo                          55 Mercer St, New York, NY 10013                   Business type: spa
+cmejaa05n00gj6dfbao5mxhwq                Three Jewels | Yoga, Meditation, Dharm   5 E 3rd St FRNT 1, New York, NY 10003, USA         Business type: yoga
+cmeja984d007v6dfbwsw4xzbt                Tony's Brooklyn Pizza                    355 Graham Ave #3708, Brooklyn, NY 11211, USA      Business type: pizza
+cmekobg3c00ev6dg5dudlzf60                Top Notch Hamburgers                     7525 Burnet Rd, Austin, TX 78757, USA              Business type: burger
+cmekob0wu009v6dg5x78vbs5h                Tso Chinese Takeout & Delivery           2407 S Congress Ave Ste F, Austin, TX 78704, USA   Business type: takeout
+cmekobpa400i36dg5aw8np1x3                Tso Chinese Takeout & Delivery           3909 N Interstate Hwy 35 Ste E-5, Austin, TX 787   Business type: takeout
+cmeja8u23002h6dfbzvss3agn                Two Boots Pizza East Village             42 Avenue A, New York, NY 10009, USA               Business type: pizza, Night-only hours detected
+cmeja9bx8009f6dfb3op7kawz                Vezzo NYC Thin Crust Pizza               178 Lexington Ave, New York, NY 10016, USA         Business type: pizza
+cmekoarrz006h6dg5ob3wfsg3                Via 313 Pizza                            1802 E 6th St, Austin, TX 78702, USA               Business type: pizza
+cmekobohh00hr6dg5tnhqzmwk                Via 313 Pizza                            3016 Guadalupe St, Austin, TX 78705, USA           Business type: pizza
+cmekobt0a00jh6dg5lo7a30m4                Wanderlust Wine Co. - Barton Springs     1601 Barton Springs Rd, Austin, TX 78704, USA      Bar/pub with no daytime hours
+cmej5xfoj000r6dlduto0tee0                WeWork - Congress                        600 Congress Ave, Austin, TX 78701                 Business type: spa
+cmej5xfnm000c6dldrruugvb7                WeWork - Flatiron                        41 E 20th St, New York, NY 10003                   Business type: spa
+cmekoakc7003z6dg5a73e6c4v                Whataburger                              601 Barton Springs Rd, Austin, TX 78704, USA       Business type: burger
+cmeja8wnn003l6dfbhzktzokw                Zucker's Bagels & Smoked Fish            143 Chambers St, New York, NY 10007, USA           Business type: smoke
+
+Total: 68 locations flagged as potentially unsuitable

@@ -3,6 +3,11 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
+
+// Helper function to create URL-friendly slug from city name
+function createCitySlug(cityName: string): string {
+  return cityName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
+}
 import { 
   Star, 
   MapPin, 

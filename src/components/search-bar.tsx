@@ -8,8 +8,8 @@ export function SearchBar() {
   const [selectedCity, setSelectedCity] = useState('')
 
   const cities = [
-    { id: 'new-york-city', name: 'New York City', state: 'NY' },
-    { id: 'austin', name: 'Austin', state: 'TX' },
+    { id: 'cmej5xfkq00006dldx90icnji', name: 'New York City', state: 'NY' },
+    { id: 'cmej5xflj00016dldpvl0cck9', name: 'Austin', state: 'TX' },
   ]
 
   return (

@@ -20,7 +20,7 @@ async function getLocation(locationId: string) {
       if (!prisma) {
         throw new Error('No database connection')
       }
-      return await prisma.location.findFirst({
+            return await prisma.location.findFirst({
         where: {
           OR: [
             { id: locationId },

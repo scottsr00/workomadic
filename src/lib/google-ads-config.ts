@@ -10,6 +10,7 @@ export const GOOGLE_ADS_CONFIG = {
     // Content break ads
     cityPage: 'YOUR_CITY_PAGE_AD_SLOT',
     locationPage: 'YOUR_LOCATION_PAGE_AD_SLOT',
+    searchPage: 'YOUR_SEARCH_PAGE_AD_SLOT',
     
     // Grid ads within location listings
     locationGrid1: 'YOUR_LOCATION_GRID_AD_SLOT_1',
